@@ -1,0 +1,13 @@
+version: "3.8" # We need to define the docker specification version
+services: # Define our service(s) - in this case we only have one
+  app: # We will build a singular app
+    build: . # Used to build our dockerfile
+    volumes: # This refers to our directory that we defined /djangoapp
+      - .:/djangoapp
+    ports: # We want to expose port 8000 within our container
+      - 8000:8000
+    env_file:
+      - .env
+    image: myapp:django # Tag/add our docker image name
+    container_name: djangoapp_container # Specify a container name
+    command: gunicorn core.wsgi:application --bind 0.0.0.0:8000 # Expose all IP addresses to connect to port 8000
